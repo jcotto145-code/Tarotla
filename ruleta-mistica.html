@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Ruleta Mística – Diosa Intuitiva Tarot</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #D4AF37; --gold-light: #F5D76E; --gold-glow: #FFE97A;
+    --purple-deep: #0D0010; --purple-mid: #2A0040;
+    --purple-rich: #4B0082; --purple-bright: #9B30FF;
+    --pink-hot: #FF3EB5; --pink-soft: #FF85D1; --cream: #FFF8E7;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--purple-deep);
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-family: 'Cinzel', serif;
+    overflow-x: hidden; position: relative;
+  }
+  .stars { position:fixed; inset:0; pointer-events:none; z-index:0; }
+  .star {
+    position:absolute; border-radius:50%; background:white;
+    animation: twinkle var(--d) ease-in-out infinite alternate;
+  }
+  @keyframes twinkle {
+    from { opacity:0.1; transform:scale(0.8); }
+    to   { opacity:0.9; transform:scale(1.2); }
+  }
+  .aura {
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 100%, rgba(75,0,130,0.5) 0%, transparent 70%),
+      radial-gradient(ellipse 80% 40% at 20% 0%,   rgba(155,48,255,0.2) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 0%,   rgba(255,62,181,0.15) 0%, transparent 60%);
+  }
+
+  /* ── MUSIC TOGGLE ── */
+  .music-toggle {
+    position: fixed; top: 16px; right: 16px; z-index: 100;
+    background: rgba(42,0,64,0.85);
+    border: 1px solid var(--gold);
+    border-radius: 50px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-family: 'Cinzel', serif;
+    font-size: 12px; letter-spacing: 0.1em;
+    color: var(--gold);
+    display: flex; align-items: center; gap: 6px;
+    transition: all 0.2s;
+    box-shadow: 0 0 14px rgba(212,175,55,0.3);
+  }
+  .music-toggle:hover { box-shadow: 0 0 22px rgba(212,175,55,0.5); }
+  .music-icon { font-size: 16px; transition: transform 0.3s; }
+  .music-toggle.playing .music-icon { animation: musicPulse 0.6s ease-in-out infinite alternate; }
+  @keyframes musicPulse { from{transform:scale(1)} to{transform:scale(1.3)} }
+
+  /* ── LOGO ── */
+  .logo-wrap {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 4px;
+  }
+  .logo-circle {
+    width: 62px; height: 62px; border-radius: 50%;
+    background: linear-gradient(135deg, #2A0040, #0D0010);
+    border: 2px solid var(--gold);
+    box-shadow: 0 0 18px rgba(212,175,55,0.5);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 30px;
+    flex-shrink: 0;
+  }
+  .logo-text { text-align: left; }
+  .logo-name {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(14px, 3.5vw, 18px);
+    color: var(--gold);
+    text-shadow: 0 0 12px var(--gold-glow);
+    line-height: 1.1;
+  }
+  .logo-sub {
+    font-family: 'IM Fell English', serif; font-style: italic;
+    font-size: 11px; color: var(--pink-soft); letter-spacing: 0.15em;
+  }
+
+  .container {
+    position:relative; z-index:1;
+    display:flex; flex-direction:column; align-items:center;
+    gap:16px; padding:20px 16px 28px;
+    max-width:540px; width:100%;
+  }
+  .header { text-align:center; }
+  .title-promo {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(24px,7vw,42px); font-weight:900; line-height:0.95;
+    background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--pink-hot) 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    filter: drop-shadow(0 0 18px rgba(212,175,55,0.6));
+    letter-spacing: 0.04em;
+  }
+  .subtitle-del-dia {
+    font-family:'IM Fell English',serif; font-style:italic;
+    font-size:clamp(15px,4vw,21px); color:var(--pink-soft);
+    text-shadow:0 0 14px var(--pink-hot); letter-spacing:0.05em;
+  }
+
+  /* ── WHEEL ── */
+  .wheel-section {
+    position:relative;
+    width:clamp(270px,78vw,420px); aspect-ratio:1;
+  }
+  .glow-ring {
+    position:absolute; inset:-12px; border-radius:50%;
+    box-shadow: 0 0 40px 15px rgba(155,48,255,0.5), 0 0 80px 30px rgba(212,175,55,0.25);
+    animation: ringPulse 3s ease-in-out infinite;
+  }
+  @keyframes ringPulse {
+    0%,100% { box-shadow: 0 0 40px 15px rgba(155,48,255,0.5), 0 0 80px 30px rgba(212,175,55,0.25); }
+    50%      { box-shadow: 0 0 60px 25px rgba(155,48,255,0.7), 0 0 110px 45px rgba(212,175,55,0.4); }
+  }
+  canvas#wheel { width:100%; height:100%; border-radius:50%; cursor:pointer; transition:filter 0.3s; }
+  canvas#wheel:hover { filter:brightness(1.08); }
+  .pointer {
+    position:absolute; top:-22px; left:50%; transform:translateX(-50%);
+    width:0; height:0;
+    border-left:16px solid transparent; border-right:16px solid transparent;
+    border-top:40px solid var(--gold);
+    filter:drop-shadow(0 0 10px var(--gold-glow)); z-index:10;
+    animation: pointerBob 2s ease-in-out infinite;
+  }
+  @keyframes pointerBob {
+    0%,100% { transform:translateX(-50%) translateY(0); }
+    50%      { transform:translateX(-50%) translateY(-5px); }
+  }
+  .spin-btn {
+    position:absolute; bottom:-28px; left:50%; transform:translateX(-50%);
+    background: linear-gradient(135deg, var(--gold) 0%, var(--pink-hot) 100%);
+    border:none; border-radius:50px; padding:14px 40px;
+    font-family:'Cinzel Decorative',serif; font-size:14px; font-weight:700;
+    color:var(--purple-deep); letter-spacing:0.1em; cursor:pointer;
+    box-shadow:0 0 20px rgba(212,175,55,0.6), 0 4px 20px rgba(0,0,0,0.4);
+    transition:transform 0.15s, box-shadow 0.15s; white-space:nowrap; z-index:10;
+  }
+  .spin-btn:hover:not(:disabled) {
+    transform:translateX(-50%) scale(1.07);
+    box-shadow:0 0 34px rgba(212,175,55,0.8), 0 6px 24px rgba(0,0,0,0.5);
+  }
+  .spin-btn:disabled { opacity:0.5; cursor:not-allowed; }
+
+  /* ── RESULT ── */
+  .result-panel {
+    width:100%;
+    background:linear-gradient(135deg,rgba(42,0,64,0.95) 0%,rgba(13,0,16,0.98) 100%);
+    border:1.5px solid var(--gold); border-radius:18px; padding:20px 24px;
+    text-align:center;
+    box-shadow:0 0 30px rgba(212,175,55,0.3), inset 0 0 20px rgba(155,48,255,0.1);
+    opacity:0; transform:translateY(20px) scale(0.96);
+    transition:opacity 0.5s ease, transform 0.5s ease;
+    min-height:105px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7px;
+  }
+  .result-panel.visible { opacity:1; transform:translateY(0) scale(1); }
+  .result-label { font-size:11px; letter-spacing:0.3em; color:var(--gold); text-transform:uppercase; }
+  .result-prize {
+    font-family:'Cinzel Decorative',serif;
+    font-size:clamp(17px,5vw,25px); font-weight:700;
+    background:linear-gradient(135deg,var(--gold-light),var(--pink-hot));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    filter:drop-shadow(0 0 10px rgba(255,62,181,0.5)); line-height:1.2;
+  }
+  .result-sub { font-family:'IM Fell English',serif; font-style:italic; font-size:14px; color:var(--cream); opacity:0.85; }
+  .result-emoji { font-size:30px; animation:popIn 0.4s cubic-bezier(0.175,0.885,0.32,1.275); }
+  @keyframes popIn { from{transform:scale(0) rotate(-20deg)} to{transform:scale(1) rotate(0)} }
+
+  /* ── WHATSAPP BUTTON ── */
+  .wa-btn {
+    display: flex; align-items: center; gap: 10px;
+    background: linear-gradient(135deg, #1DB954 0%, #128C3E 100%);
+    border: none; border-radius: 50px;
+    padding: 14px 30px;
+    font-family: 'Cinzel', serif; font-size: 13px; font-weight: 700;
+    color: white; letter-spacing: 0.08em;
+    cursor: pointer; text-decoration: none;
+    box-shadow: 0 0 20px rgba(29,185,84,0.4), 0 4px 18px rgba(0,0,0,0.4);
+    transition: transform 0.15s, box-shadow 0.15s;
+    width: 100%; justify-content: center;
+  }
+  .wa-btn:hover {
+    transform: scale(1.04);
+    box-shadow: 0 0 30px rgba(29,185,84,0.6), 0 6px 22px rgba(0,0,0,0.5);
+  }
+  .wa-icon { font-size: 22px; }
+  .wa-text { display:flex; flex-direction:column; align-items:flex-start; line-height:1.2; }
+  .wa-main { font-size:14px; }
+  .wa-sub  { font-size:10px; opacity:0.85; letter-spacing:0.12em; font-family:'IM Fell English',serif; font-style:italic; }
+
+  /* ── HOW TO ── */
+  .how-row { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+  .step {
+    display:flex; flex-direction:column; align-items:center; gap:5px;
+    background:rgba(42,0,64,0.7); border:1px solid rgba(212,175,55,0.4);
+    border-radius:14px; padding:10px 14px;
+    font-size:10px; letter-spacing:0.1em; color:var(--gold); text-transform:uppercase;
+    min-width:76px;
+  }
+  .step .icon { font-size:20px; }
+
+  /* ── SPARKLE / CONFETTI ── */
+  .sparkle {
+    position:fixed; pointer-events:none; z-index:999; font-size:20px;
+    animation:sparkleFly 1.2s ease-out forwards;
+  }
+  @keyframes sparkleFly {
+    0%  { opacity:1; transform:translate(0,0) scale(1); }
+    100%{ opacity:0; transform:translate(var(--dx),var(--dy)) scale(0.3); }
+  }
+  @keyframes confettiFall {
+    0%  { transform:translate(0,0) rotate(0deg); opacity:1; }
+    100%{ transform:translate(var(--dx),120vh) rotate(720deg); opacity:0; }
+  }
+  .confetti-piece {
+    position:fixed; top:-10px; pointer-events:none; z-index:998;
+    width:10px; height:10px; border-radius:2px;
+    animation:confettiFall 2s ease-in forwards;
+  }
+  .footer-text {
+    font-family:'IM Fell English',serif; font-style:italic;
+    font-size:12px; color:rgba(212,175,55,0.6); letter-spacing:0.08em; text-align:center;
+  }
+</style>
+</head>
+<body>
+<div class="stars" id="stars"></div>
+<div class="aura"></div>
+
+<!-- Music toggle -->
+<button class="music-toggle" id="musicToggle" onclick="toggleMusic()">
+  <span class="music-icon" id="musicIcon">🎵</span>
+  <span id="musicLabel">Música</span>
+</button>
+
+<div class="container">
+
+  <!-- Logo -->
+  <div class="logo-wrap">
+    <div class="logo-circle">🌙</div>
+    <div class="logo-text">
+      <div class="logo-name">Diosa Intuitiva</div>
+      <div class="logo-sub">✦ T A R O T ✦</div>
+    </div>
+  </div>
+
+  <div class="header">
+    <div class="title-promo">PROMO<br>INTERACTIVA</div>
+    <div class="subtitle-del-dia">✧ La Ruleta Mística ✧</div>
+  </div>
+
+  <div class="wheel-section" id="wheelSection">
+    <div class="glow-ring"></div>
+    <div class="pointer"></div>
+    <canvas id="wheel" width="440" height="440"></canvas>
+    <button class="spin-btn" id="spinBtn" onclick="spinWheel()">🔮 GIRAR</button>
+  </div>
+
+  <div style="height:16px"></div>
+
+  <div class="result-panel" id="resultPanel">
+    <div class="result-label">Toca GIRAR para revelar tu destino</div>
+    <div class="result-sub" style="color:rgba(212,175,55,0.5)">🌙 La magia comienza contigo</div>
+  </div>
+
+  <!-- WhatsApp button -->
+  <a class="wa-btn" href="https://wa.me/1234567890?text=Hola%20Diosa%20Intuitiva%2C%20giré%20la%20ruleta%20y%20quiero%20reclamar%20mi%20premio%20🔮✨" target="_blank" id="waBtn">
+    <span class="wa-icon">📲</span>
+    <span class="wa-text">
+      <span class="wa-main">Contactar por WhatsApp</span>
+      <span class="wa-sub">Reclamar mi premio · ATH Móvil disponible</span>
+    </span>
+  </a>
+
+  <div class="how-row">
+    <div class="step"><span class="icon">💗</span>Dale Like</div>
+    <div class="step"><span class="icon">📤</span>Comparte</div>
+    <div class="step"><span class="icon">💬</span>Comenta tu emoji</div>
+  </div>
+
+  <div class="footer-text">Solo las primeras 20 personas participan esta noche ✦</div>
+</div>
+
+<script>
+// ── Stars ──
+const starsEl = document.getElementById('stars');
+for(let i=0;i<140;i++){
+  const s=document.createElement('div'); s.className='star';
+  const sz=Math.random()*2.5+0.5;
+  s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${(Math.random()*3+1.5).toFixed(2)}s;animation-delay:${(Math.random()*4).toFixed(2)}s`;
+  starsEl.appendChild(s);
+}
+
+// ── Audio Engine (Web Audio API – no files needed) ──
+const AC = new (window.AudioContext || window.webkitAudioContext)();
+let musicNode = null, musicGain = null, musicPlaying = false;
+
+function createMysticMusic() {
+  // Ambient pad: layered oscillators
+  const master = AC.createGain(); master.gain.value = 0.12; master.connect(AC.destination);
+
+  // Bass drone
+  const bass = AC.createOscillator(); bass.type = 'sine'; bass.frequency.value = 55;
+  const bassG = AC.createGain(); bassG.gain.value = 0.4;
+  bass.connect(bassG); bassG.connect(master); bass.start();
+
+  // Slow LFO on drone
+  const lfo = AC.createOscillator(); lfo.frequency.value = 0.08;
+  const lfoG = AC.createGain(); lfoG.gain.value = 8;
+  lfo.connect(lfoG); lfoG.connect(bass.frequency); lfo.start();
+
+  // Mid harmonic
+  const mid = AC.createOscillator(); mid.type = 'triangle'; mid.frequency.value = 110;
+  const midG = AC.createGain(); midG.gain.value = 0.18;
+  const midLfo = AC.createOscillator(); midLfo.frequency.value = 0.13;
+  const midLfoG = AC.createGain(); midLfoG.gain.value = 5;
+  midLfo.connect(midLfoG); midLfoG.connect(mid.frequency);
+  mid.connect(midG); midG.connect(master); mid.start(); midLfo.start();
+
+  // High shimmer
+  const hi = AC.createOscillator(); hi.type = 'sine'; hi.frequency.value = 440;
+  const hiG = AC.createGain(); hiG.gain.value = 0.04;
+  const hiLfo = AC.createOscillator(); hiLfo.frequency.value = 0.22;
+  const hiLfoG = AC.createGain(); hiLfoG.gain.value = 20;
+  hiLfo.connect(hiLfoG); hiLfoG.connect(hi.frequency);
+  hi.connect(hiG); hiG.connect(master); hi.start(); hiLfo.start();
+
+  // Reverb-like convolver
+  const convolver = AC.createConvolver();
+  const bufLen = AC.sampleRate * 3;
+  const impulse = AC.createBuffer(2, bufLen, AC.sampleRate);
+  for(let c=0;c<2;c++){
+    const d = impulse.getChannelData(c);
+    for(let i=0;i<bufLen;i++) d[i] = (Math.random()*2-1) * Math.pow(1-i/bufLen, 2.5);
+  }
+  convolver.buffer = impulse;
+  master.connect(convolver);
+  const revG = AC.createGain(); revG.gain.value = 0.3;
+  convolver.connect(revG); revG.connect(AC.destination);
+
+  return { master, bass, mid, hi, lfo, midLfo, hiLfo };
+}
+
+let mysticNodes = null;
+function toggleMusic(){
+  AC.resume();
+  musicPlaying = !musicPlaying;
+  const btn = document.getElementById('musicToggle');
+  const icon = document.getElementById('musicIcon');
+  const label = document.getElementById('musicLabel');
+  if(musicPlaying){
+    if(!mysticNodes) mysticNodes = createMysticMusic();
+    mysticNodes.master.gain.setTargetAtTime(0.12, AC.currentTime, 0.5);
+    btn.classList.add('playing');
+    icon.textContent = '🔊'; label.textContent = 'Música';
+  } else {
+    if(mysticNodes) mysticNodes.master.gain.setTargetAtTime(0, AC.currentTime, 0.5);
+    btn.classList.remove('playing');
+    icon.textContent = '🔇'; label.textContent = 'Música';
+  }
+}
+
+// ── Tick sound ──
+function playTick(){
+  AC.resume();
+  const o = AC.createOscillator(); const g = AC.createGain();
+  o.type = 'triangle'; o.frequency.value = 600 + Math.random()*200;
+  g.gain.setValueAtTime(0.18, AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, AC.currentTime + 0.07);
+  o.connect(g); g.connect(AC.destination);
+  o.start(); o.stop(AC.currentTime + 0.07);
+}
+
+// ── Win chime ──
+function playWinChime(){
+  AC.resume();
+  const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+  notes.forEach((freq, i) => {
+    setTimeout(() => {
+      const o = AC.createOscillator(); const g = AC.createGain();
+      o.type = 'sine'; o.frequency.value = freq;
+      g.gain.setValueAtTime(0.22, AC.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, AC.currentTime + 0.8);
+      o.connect(g); g.connect(AC.destination);
+      o.start(); o.stop(AC.currentTime + 0.8);
+    }, i * 120);
+  });
+  // Bell shimmer
+  setTimeout(() => {
+    for(let i=0;i<6;i++){
+      const o = AC.createOscillator(); const g = AC.createGain();
+      o.type = 'sine'; o.frequency.value = 880 + Math.random()*500;
+      g.gain.setValueAtTime(0.08, AC.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, AC.currentTime+0.5);
+      o.connect(g); g.connect(AC.destination);
+      o.start(); o.stop(AC.currentTime+0.5);
+    }
+  }, 600);
+}
+
+// ── Wheel data ──
+const segments = [
+  { label:'10% OFF',        emoji:'🏷️', color:'#4B0082', textColor:'#FFD700', sub:'¡Descuento especial en rituales!' },
+  { label:'Amor',           emoji:'❤️', color:'#7B0050', textColor:'#FFB3D9', sub:'Lectura rápida de amor' },
+  { label:'15% OFF',        emoji:'🎁', color:'#3A0068', textColor:'#FFD700', sub:'¡Tu mejor descuento!' },
+  { label:'Atracción',      emoji:'✨', color:'#5C0080', textColor:'#FFE566', sub:'Mini mensaje intuitivo GRATIS' },
+  { label:'Endulzamiento',  emoji:'🍯', color:'#2D0050', textColor:'#FFB3D9', sub:'Express GRATIS' },
+  { label:'Compatibilidad', emoji:'💜', color:'#450070', textColor:'#E8AAFF', sub:'Audio intuitivo personalizado' },
+  { label:'Limpieza',       emoji:'🕯️', color:'#1A0030', textColor:'#D4AF37', sub:'Ritual de limpieza energética' },
+  { label:'Abundancia',     emoji:'🍀', color:'#2A0045', textColor:'#9DFF9D', sub:'Número de suerte revelado' },
+  { label:'Suerte',         emoji:'⭐', color:'#3D005A', textColor:'#FFE566', sub:'¡Tu número mágico!' },
+  { label:'Audio Intuitivo',emoji:'🎙️', color:'#500070', textColor:'#FFD0F5', sub:'Personalizado GRATIS' },
+  { label:'Venus Negra',    emoji:'🖤', color:'#1A0020', textColor:'#FF85D1', sub:'Atracción Fatal – desde $25' },
+  { label:'Sorpresa',       emoji:'🔮', color:'#380060', textColor:'#C9AAFF', sub:'¡Premio misterioso especial!' },
+];
+
+const N = segments.length, arc = (2*Math.PI)/N;
+let angle = 0, spinning = false;
+let lastTickSegment = -1;
+
+const canvas = document.getElementById('wheel');
+const ctx = canvas.getContext('2d');
+const W=canvas.width, H=canvas.height, R=W/2-6, cx=W/2, cy=H/2;
+
+function lightenHex(hex,amt){
+  const n=parseInt(hex.slice(1),16);
+  return `rgb(${Math.min(255,((n>>16)&0xff)+Math.round(255*amt))},${Math.min(255,((n>>8)&0xff)+Math.round(255*amt))},${Math.min(255,(n&0xff)+Math.round(255*amt))})`;
+}
+
+function drawWheel(rot){
+  ctx.clearRect(0,0,W,H);
+  const grad = ctx.createRadialGradient(cx,cy,R-12,cx,cy,R+4);
+  grad.addColorStop(0,'#8B2BE2'); grad.addColorStop(1,'#D4AF37');
+  ctx.beginPath(); ctx.arc(cx,cy,R+4,0,2*Math.PI);
+  ctx.strokeStyle=grad; ctx.lineWidth=8; ctx.stroke();
+  for(let i=0;i<N*2;i++){
+    const a=rot+(i*Math.PI/N);
+    ctx.beginPath(); ctx.arc(cx+(R+2)*Math.cos(a), cy+(R+2)*Math.sin(a), 2.5, 0, 2*Math.PI);
+    ctx.fillStyle=i%2===0?'#D4AF37':'#FF85D1'; ctx.fill();
+  }
+  segments.forEach((seg,i)=>{
+    const start=rot+i*arc, end=start+arc, mid=start+arc/2;
+    const g2=ctx.createRadialGradient(cx,cy,0,cx,cy,R);
+    g2.addColorStop(0,lightenHex(seg.color,0.25)); g2.addColorStop(1,seg.color);
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,R,start,end); ctx.closePath();
+    ctx.fillStyle=g2; ctx.fill();
+    ctx.beginPath(); ctx.moveTo(cx,cy);
+    ctx.lineTo(cx+R*Math.cos(start),cy+R*Math.sin(start));
+    ctx.strokeStyle='rgba(212,175,55,0.6)'; ctx.lineWidth=1.2; ctx.stroke();
+    // Emoji
+    const er=R*0.78, ex=cx+er*Math.cos(mid), ey=cy+er*Math.sin(mid);
+    ctx.save(); ctx.translate(ex,ey); ctx.rotate(mid+Math.PI/2);
+    ctx.font=`${Math.floor(R*0.085)}px serif`; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText(seg.emoji,0,0); ctx.restore();
+    // Label
+    const tr=R*0.52, tx=cx+tr*Math.cos(mid), ty=cy+tr*Math.sin(mid);
+    ctx.save(); ctx.translate(tx,ty); ctx.rotate(mid+Math.PI/2);
+    ctx.font=`bold ${Math.floor(R*0.058)}px 'Cinzel',serif`;
+    ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillStyle=seg.textColor;
+    ctx.shadowColor='rgba(0,0,0,0.9)'; ctx.shadowBlur=5;
+    const words=seg.label.split(' ');
+    if(words.length>1&&seg.label.length>10){
+      ctx.fillText(words[0],0,-R*0.04); ctx.fillText(words.slice(1).join(' '),0,R*0.045);
+    } else { ctx.fillText(seg.label,0,0); }
+    ctx.restore();
+  });
+  const cg=ctx.createRadialGradient(cx,cy,0,cx,cy,R*0.15);
+  cg.addColorStop(0,'#F5D76E'); cg.addColorStop(0.5,'#9B30FF'); cg.addColorStop(1,'#0D0010');
+  ctx.beginPath(); ctx.arc(cx,cy,R*0.15,0,2*Math.PI);
+  ctx.fillStyle=cg; ctx.fill(); ctx.strokeStyle='#D4AF37'; ctx.lineWidth=3; ctx.stroke();
+  ctx.font=`${Math.floor(R*0.1)}px serif`; ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText('🌙',cx,cy);
+}
+drawWheel(angle);
+
+// ── Spin ──
+function spinWheel(){
+  if(spinning) return;
+  AC.resume();
+  spinning=true;
+  document.getElementById('spinBtn').disabled=true;
+  const panel=document.getElementById('resultPanel');
+  panel.classList.remove('visible'); panel.innerHTML='';
+
+  const winner=Math.floor(Math.random()*N);
+  const extraSpins=(5+Math.floor(Math.random()*5))*2*Math.PI;
+  const targetAngle=extraSpins+(2*Math.PI-winner*arc)-arc/2-Math.PI/2;
+  const duration=4500+Math.random()*1500;
+  const startAngle=angle, startTime=performance.now();
+  function ease(t){ return 1-Math.pow(1-t,4); }
+
+  function frame(now){
+    const t=Math.min((now-startTime)/duration,1);
+    angle=startAngle+ease(t)*targetAngle;
+    drawWheel(angle);
+
+    // Tick sound per segment crossing
+    const currentSeg = Math.floor(((angle % (2*Math.PI)) / arc + N) % N);
+    if(currentSeg !== lastTickSegment && t < 0.92){
+      playTick(); lastTickSegment=currentSeg;
+    }
+
+    if(t<1){ requestAnimationFrame(frame); }
+    else {
+      spinning=false;
+      document.getElementById('spinBtn').disabled=false;
+      showResult(winner);
+      spawnConfetti();
+      playWinChime();
+    }
+  }
+  requestAnimationFrame(frame);
+}
+
+function showResult(i){
+  const seg=segments[i];
+  const panel=document.getElementById('resultPanel');
+  const waBtn=document.getElementById('waBtn');
+  panel.innerHTML=`
+    <div class="result-label">✦ Tu destino esta noche ✦</div>
+    <div class="result-emoji">${seg.emoji}</div>
+    <div class="result-prize">${seg.label}</div>
+    <div class="result-sub">${seg.sub}</div>
+  `;
+  requestAnimationFrame(()=>panel.classList.add('visible'));
+  // Update WA message with prize
+  const msg=encodeURIComponent(`Hola Diosa Intuitiva 🌙✨ Giré la Ruleta Mística y me tocó: ${seg.label} – ${seg.sub}. ¡Quiero reclamar mi premio! 🔮`);
+  waBtn.href=`https://wa.me/1234567890?text=${msg}`;
+  spawnSparkles();
+}
+
+function spawnSparkles(){
+  const glyphs=['✨','⭐','💫','🌟','✦','★'];
+  for(let i=0;i<18;i++) setTimeout(()=>{
+    const s=document.createElement('div'); s.className='sparkle';
+    const x=20+Math.random()*window.innerWidth*0.8, y=20+Math.random()*window.innerHeight*0.8;
+    s.textContent=glyphs[Math.floor(Math.random()*glyphs.length)];
+    s.style.cssText=`left:${x}px;top:${y}px;--dx:${(Math.random()-0.5)*120}px;--dy:${-(40+Math.random()*100)}px`;
+    document.body.appendChild(s); setTimeout(()=>s.remove(),1300);
+  },i*60);
+}
+
+function spawnConfetti(){
+  const colors=['#D4AF37','#FF3EB5','#9B30FF','#FFE566','#FF85D1','#7B2FBE'];
+  for(let i=0;i<70;i++) setTimeout(()=>{
+    const c=document.createElement('div'); c.className='confetti-piece';
+    c.style.cssText=`left:${Math.random()*100}vw;background:${colors[Math.floor(Math.random()*colors.length)]};--dx:${(Math.random()-0.5)*200}px;animation-duration:${1.5+Math.random()}s;animation-delay:${Math.random()*0.4}s;width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;border-radius:${Math.random()>0.5?'50%':'2px'};`;
+    document.body.appendChild(c); setTimeout(()=>c.remove(),2600);
+  },i*22);
+}
+
+let idleAngle=0;
+function idleFrame(){
+  if(!spinning){ idleAngle+=0.0003; drawWheel(angle+Math.sin(idleAngle)*0.012); }
+  requestAnimationFrame(idleFrame);
+}
+idleFrame();
+</script>
+</body>
+</html>
